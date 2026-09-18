@@ -3,47 +3,67 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mark Miller</title>
+  <title>Mark Miller — backend, AI/RAG, Web3</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main>
-    <img class="mark" src="logo.png" alt="0xMiller Labs" width="88" height="88" />
-    <p class="kicker">0xMiller Labs · personal engineering lab</p>
-    <h1>Mark Miller</h1>
-    <p class="lede">Senior Backend Engineer. Distributed systems, local-first agents, Web3 infrastructure.</p>
-    <p class="stack"><code>Python</code> <code>Go</code> <code>Ollama</code> <code>vLLM</code> <code>FastAPI</code> <code>Kafka</code> <code>EVM</code></p>
+  <div class="frame">
+    <header>
+      <span class="id">0xmmiller / engineer</span>
+      <nav>
+        <a href="#work">work</a>
+        <a href="#hire">contract</a>
+        <a href="https://github.com/0xmmiller">github</a>
+      </nav>
+    </header>
 
-    <section class="grid">
-      <article>
-        <h2>Atlas</h2>
-        <p>Digital asset operations. Python domain, Go notify, operator UI, agents on local models.</p>
-        <p class="links">
-          <a href="https://github.com/0xmmiller/architecture">Architecture</a>
-          <a href="https://github.com/0xmmiller/atlas-web">Web</a>
-          <a href="https://github.com/0xmmiller/notification-service">Notify</a>
-        </p>
-      </article>
-      <article>
-        <h2>PyScale</h2>
-        <p>Backend performance lab. Hypotheses, p50/p95/p99, cautious conclusions.</p>
-        <p class="links"><a href="https://github.com/0xmmiller/pyscale">GitHub</a></p>
-      </article>
-      <article>
-        <h2>ChainKit</h2>
-        <p>Reorg handling, RPC failover, log range split, event listener.</p>
-        <p class="links"><a href="https://github.com/0xmmiller/chainkit">GitHub</a></p>
-      </article>
-      <article>
-        <h2>AgentKit</h2>
-        <p>Agent backend: Ollama/vLLM first, MCP-shaped tools, Atlas portfolio/intent tools, durable runs.</p>
-        <p class="links"><a href="https://github.com/0xmmiller/agentkit">GitHub</a></p>
-      </article>
+    <section class="intro">
+      <div>
+        <h1>Mark Miller</h1>
+        <p class="role">Backend engineer &amp; AI developer. RAG, local models, distributed systems, EVM data planes.</p>
+      </div>
+      <aside>
+        <p>Available for contract.</p>
+        <p>I ship the system: APIs, indexers, agent runtimes, retrieval. Not a chatbot bolted on a FAQ.</p>
+        <p class="mono">Remote · English</p>
+      </aside>
     </section>
-  </main>
-  <footer>
-    Not a company. Not a custodian.
-    <a href="https://github.com/0xmmiller">github.com/0xmmiller</a>
-  </footer>
+
+    <section id="work">
+      <h2>Selected work</h2>
+      <ol class="cases">
+        <li>
+          <h3>Atlas</h3>
+          <p>Digital asset operations platform. Python domain services, Go notification plane, operator UI, agents with tools.</p>
+          <p class="mono"><a href="https://github.com/0xmmiller/architecture">architecture</a> · <a href="https://github.com/0xmmiller/atlas-web">web</a> · <a href="https://github.com/0xmmiller/notification-service">notify</a></p>
+        </li>
+        <li>
+          <h3>AgentKit + RagKit</h3>
+          <p>Local-first agents (Ollama/vLLM). MCP-shaped tools. RAG over owned docs with citations — chain state stays on portfolio tools.</p>
+          <p class="mono"><a href="https://github.com/0xmmiller/agentkit">agentkit</a> · <a href="https://github.com/0xmmiller/ragkit">ragkit</a> · <a href="https://github.com/0xmmiller/architecture/blob/main/adr/009-rag-citations.md">ADR-009</a></p>
+        </li>
+        <li>
+          <h3>ChainKit / PyScale</h3>
+          <p>Reorg-aware indexer kit. Measured Python performance (p50/p95/p99), not folklore.</p>
+          <p class="mono"><a href="https://github.com/0xmmiller/chainkit">chainkit</a> · <a href="https://github.com/0xmmiller/pyscale">pyscale</a></p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="hire">
+      <h2>What I take</h2>
+      <ul class="take">
+        <li>Backend / platform (FastAPI, Go, Postgres, Kafka, k8s)</li>
+        <li>AI developer work: RAG, tool-calling agents, local model runtimes</li>
+        <li>Web3 off-chain: EVM indexers, reorgs, RPC failover</li>
+      </ul>
+      <p>Start with a GitHub issue on <a href="https://github.com/0xmmiller/architecture/issues">architecture</a> — label <code>contract</code>. Public portfolio is the proof, not a pitch deck.</p>
+    </section>
+
+    <footer>
+      <span>Personal lab. Not a company. Not Limes Labs.</span>
+      <a href="https://github.com/0xmmiller">github.com/0xmmiller</a>
+    </footer>
+  </div>
 </body>
 </html>
