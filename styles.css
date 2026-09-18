@@ -12,7 +12,7 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.5;
 }
-main { max-width: 860px; margin: 0 auto; padding: 4.5rem 1.5rem 2rem; }
+.mark { display: block; margin-bottom: 1.4rem; border-radius: 18px; }
 .kicker { color: var(--accent); letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.72rem; }
 h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 600; letter-spacing: -0.04em; margin: 0.2rem 0 0.6rem; }
 .lede { color: var(--muted); max-width: 36rem; }
