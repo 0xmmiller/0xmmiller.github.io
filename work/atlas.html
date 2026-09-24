@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atlas - operator board</title>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="./work.css" />
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <a href="/">0xmmiller / engineer</a>
+      <nav>
+        <a href="/#work">work</a>
+        <a href="./index.html">systems</a>
+        <a href="https://github.com/0xmmiller/architecture">github</a>
+      </nav>
+    </header>
+
+    <h1>Atlas</h1>
+    <p class="lede">Digital asset operations. My job was the write path, the bus, and what happens when RPC or Kafka lies down. This board is an original lab surface, not a product screenshot.</p>
+
+    <h2>Built against</h2>
+    <table class="slo">
+      <thead><tr><th>Signal</th><th>Lab target</th><th>If missed</th></tr></thead>
+      <tbody>
+        <tr><td>GET /v1/portfolio p95</td><td>&lt; 50ms warm Redis</td><td>Postgres path, still correct</td></tr>
+        <tr><td>Indexer head lag</td><td>&lt; 12s mock RPC, alert &gt; 30s / 5m</td><td>Pause. No synthetic blocks</td></tr>
+        <tr><td>Bus consumer lag</td><td>alert &gt; 10k msgs / 5m</td><td>X-Atlas-Degraded: bus</td></tr>
+        <tr><td>Availability</td><td>99.9% excluding planned restarts</td><td>503 on the broken route only</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Interaction</h2>
+    <p class="why">platform-api is the only public HTTP. Indexer is the only process allowed to interpret chain canonicality. Notify is Go, fan-out, not domain logic.</p>
+    <div class="stage">
+      <div class="stage-top">
+        <span id="hdr">healthy</span>
+        <span id="hdr-slo">p95 41ms, lag 4s</span>
+      </div>
+      <div class="graph" id="graph">
+        <div class="node" data-n="api">platform-api<small>auth, RPS, BFF</small></div>
+        <div class="node" data-n="tx">transaction<small>intents, outbox</small></div>
+        <div class="node" data-n="idx">indexer<small>RPC, checkpoints</small></div>
+        <div class="node" data-n="port">portfolio<small>positions, cache</small></div>
+        <div class="node" data-n="an">analytics<small>90d windows</small></div>
+        <div class="node" data-n="bus">redpanda<small>atlas.* topics</small></div>
+        <div class="node" data-n="pg">postgres<small>db per service</small></div>
+        <div class="node" data-n="nt">notifyd<small>Go fan-out</small></div>
+      </div>
+      <div class="ops">
+        <button type="button" data-mode="healthy" class="on">healthy</button>
+        <button type="button" data-mode="rpc">RPC brownout</button>
+        <button type="button" data-mode="bus">bus down</button>
+        <button type="button" data-mode="intent">create intent</button>
+      </div>
+      <p class="log" id="log">Click a failure. The UI is allowed to look worse. Lying about freshness is not.</p>
+    </div>
+
+    <h2>Why this shape</h2>
+    <p class="why">API can be rewritten without touching idempotency. Indexer catch-up is RPC-bound; portfolio is query-bound. Mixing them is how p95 dies. Redis down: fail closed on rate limit, serve portfolio from Postgres. Kafka down: HTTP still commits the outbox.</p>
+    <p class="mono"><a href="https://github.com/0xmmiller/architecture">architecture</a>, <a href="https://github.com/0xmmiller/atlas-web">atlas-web</a>, <a href="https://github.com/0xmmiller/notification-service">notification-service</a></p>
+
+    <footer>
+      <span>Lab targets, not a paid SLA.</span>
+      <a href="./index.html">all systems</a>
+    </footer>
+  </div>
+  <script>
+    const log = document.getElementById("log");
+    const hdr = document.getElementById("hdr");
+    const slo = document.getElementById("hdr-slo");
+    const nodes = [...document.querySelectorAll(".node")];
+    const btns = [...document.querySelectorAll(".ops button")];
+    const copy = {
+      healthy: ["healthy", "p95 41ms, lag 4s", "All routes fresh. as_of_block matches indexer head.", []],
+      rpc: ["degraded: rpc", "p95 44ms, lag 34s", "Indexer paused. No synthetic blocks. Reads still serve last projection, marked as_of_block.", ["idx"]],
+      bus: ["degraded: bus", "p95 39ms, lag n/a", "Intent create returns 202. Outbox pending. Portfolio frozen. Header X-Atlas-Degraded: bus.", ["bus", "nt"]],
+      intent: ["healthy", "p95 47ms, lag 4s", "POST /v1/intents -> tx unique insert -> outbox -> bus -> portfolio. Duplicate key is success, not a retry storm.", ["api", "tx", "bus", "port"]],
+    };
+    function paint(mode) {
+      const [h, s, msg, hot] = copy[mode];
+      hdr.textContent = h;
+      slo.textContent = s;
+      log.textContent = msg;
+      nodes.forEach((n) => {
+        n.classList.toggle("hot", hot.includes(n.dataset.n));
+        n.classList.toggle("ok", mode === "intent" && ["api", "port"].includes(n.dataset.n));
+      });
+      btns.forEach((b) => b.classList.toggle("on", b.dataset.mode === mode));
+    }
+    document.querySelector(".ops").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (b) paint(b.dataset.mode);
+    });
+  </script>
+</body>
+</html>

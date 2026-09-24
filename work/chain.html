@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ChainKit - reorgs, measured</title>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="./work.css" />
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <a href="/">0xmmiller / engineer</a>
+      <nav>
+        <a href="/#work">work</a>
+        <a href="./index.html">systems</a>
+        <a href="https://github.com/0xmmiller/chainkit">github</a>
+      </nav>
+    </header>
+
+    <h1>ChainKit / PyScale</h1>
+    <p class="lede">Reorgs are a data-plane problem. Display confirmations are not a substitute for detach. Numbers below are from PyScale on an Apple M2, Python 3.12.9, 2026-09-18, in-process. They describe that laptop.</p>
+
+    <h2>Built against</h2>
+    <table class="slo">
+      <thead><tr><th>Measurement</th><th>Value</th><th>Lesson</th></tr></thead>
+      <tbody>
+        <tr><td>async IO wait p95</td><td>6.4ms (N=200, C=20)</td><td>Do not block the loop</td></tr>
+        <tr><td>sync sleep p95</td><td>10.1ms (N=80, C=8)</td><td>~4x lower RPS even with less load</td></tr>
+        <tr><td>json.dumps CPU</td><td>11515 RPS one process</td><td>Async will not multiply this</td></tr>
+        <tr><td>singleflight vs stampede</td><td>1 vs 50 backend calls</td><td>Coalesce misses. Redis speed is not the lesson</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Detach and replay</h2>
+    <p class="why">Indexer tracks a hash chain. Parent mismatch: walk to ancestor, emit atlas.chain.reorg, re-emit canonical logs. Portfolio deletes above the ancestor. Balances may jump. That is honest.</p>
+    <div class="stage">
+      <div class="stage-top">
+        <span id="hdr">canonical head n</span>
+        <span id="hdr-slo">as_of_block n</span>
+      </div>
+      <div class="chain" id="chain"></div>
+      <div class="ops">
+        <button type="button" data-mode="canon" class="on">canonical</button>
+        <button type="button" data-mode="reorg">reorg depth 3</button>
+        <button type="button" data-mode="replay">replay</button>
+      </div>
+      <p class="log" id="log">Five blocks, one fork choice. Indexer speaks. Portfolio does not talk to RPC.</p>
+    </div>
+
+    <h2>Why this shape</h2>
+    <p class="why">If every service talks to RPC, you get three fork choices and a bill. ChainKit is the kit: checkpoints, detach, replay. PyScale exists so "Python is slow" has a method, a machine, and percentiles.</p>
+    <p class="mono"><a href="https://github.com/0xmmiller/chainkit">chainkit</a>, <a href="https://github.com/0xmmiller/pyscale">pyscale</a>, <a href="https://github.com/0xmmiller/architecture/blob/main/adr/006-reorg-handling.md">ADR-006</a></p>
+
+    <footer>
+      <span>Lab measurements, not a paid SLA.</span>
+      <a href="./index.html">all systems</a>
+    </footer>
+  </div>
+  <script>
+    const el = document.getElementById("chain");
+    const log = document.getElementById("log");
+    const hdr = document.getElementById("hdr");
+    const slo = document.getElementById("hdr-slo");
+    const states = {
+      canon: {
+        h: "canonical head n",
+        s: "as_of_block n",
+        m: "Head matches parent hashes. Portfolio projections sit on n.",
+        blocks: [
+          ["n-4", "a1"], ["n-3", "b2"], ["n-2", "c3"], ["n-1", "d4"], ["n", "e5"],
+        ],
+        cls: ["", "", "", "", ""],
+      },
+      reorg: {
+        h: "reorg: parent mismatch at n-2",
+        s: "as_of_block n-3",
+        m: "Detach [n-2 .. n]. Do not smooth. API may return a lower as_of_block. That is the contract.",
+        blocks: [
+          ["n-4", "a1"], ["n-3", "b2"], ["n-2", "c3"], ["n-1", "d4"], ["n", "e5"],
+        ],
+        cls: ["", "", "dead", "dead", "dead"],
+      },
+      replay: {
+        h: "replay canonical fork",
+        s: "as_of_block n'",
+        m: "Re-emit logs from ancestor. New hashes. Consumers apply by log identity, ON CONFLICT DO NOTHING.",
+        blocks: [
+          ["n-4", "a1"], ["n-3", "b2"], ["n-2", "f8"], ["n-1", "g9"], ["n'", "h0"],
+        ],
+        cls: ["", "", "new", "new", "new"],
+      },
+    };
+    function paint(mode) {
+      const d = states[mode];
+      hdr.textContent = d.h;
+      slo.textContent = d.s;
+      log.textContent = d.m;
+      el.innerHTML = d.blocks.map(([n, h], i) =>
+        `<div class="block ${d.cls[i]}">${n}<br>${h}</div>`
+      ).join("");
+      [...document.querySelectorAll(".ops button")].forEach((b) => b.classList.toggle("on", b.dataset.mode === mode));
+    }
+    document.querySelector(".ops").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (b) paint(b.dataset.mode);
+    });
+    paint("canon");
+  </script>
+</body>
+</html>

@@ -7,6 +7,7 @@
   <link rel="icon" href="/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="/work/block.js"></script>
 </head>
 <body>
   <div class="frame">
@@ -14,6 +15,7 @@
       <span class="id">0xmmiller / engineer</span>
       <nav>
         <a href="#work">work</a>
+        <a href="/work/">systems</a>
         <a href="#hire">contract</a>
         <a href="https://github.com/0xmmiller">github</a>
       </nav>
@@ -33,23 +35,8 @@
 
     <section id="work">
       <h2>Selected work</h2>
-      <ol class="cases">
-        <li>
-          <h3>Atlas</h3>
-          <p>Digital asset operations platform. Python domain services, Go notification plane, operator UI, agents with tools.</p>
-          <p class="mono"><a href="https://github.com/0xmmiller/architecture">architecture</a>, <a href="https://github.com/0xmmiller/atlas-web">web</a>, <a href="https://github.com/0xmmiller/notification-service">notifications</a></p>
-        </li>
-        <li>
-          <h3>AgentKit + RagKit</h3>
-          <p>Local-first agents (Ollama/vLLM). MCP-shaped tools. RAG over owned docs with citations. Chain state stays on portfolio tools.</p>
-          <p class="mono"><a href="https://github.com/0xmmiller/agentkit">agentkit</a>, <a href="https://github.com/0xmmiller/ragkit">ragkit</a>, <a href="https://github.com/0xmmiller/architecture/blob/main/adr/009-rag-citations.md">ADR-009</a></p>
-        </li>
-        <li>
-          <h3>ChainKit / PyScale</h3>
-          <p>Reorg-aware indexer kit. Measured Python performance (p50/p95/p99), not folklore.</p>
-          <p class="mono"><a href="https://github.com/0xmmiller/chainkit">chainkit</a>, <a href="https://github.com/0xmmiller/pyscale">pyscale</a></p>
-        </li>
-      </ol>
+      <p class="work-lead">Click a preview. Boards are original lab surfaces: maps, SLOs, failure. Not employer product UI.</p>
+      <miller-work quiet></miller-work>
     </section>
 
     <section id="hire">

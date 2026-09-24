@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RagKit - citations, not chat</title>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link rel="stylesheet" href="./work.css" />
+</head>
+<body>
+  <div class="frame">
+    <header>
+      <a href="/">0xmmiller / engineer</a>
+      <nav>
+        <a href="/#work">work</a>
+        <a href="./index.html">systems</a>
+        <a href="https://github.com/0xmmiller/ragkit">github</a>
+      </nav>
+    </header>
+
+    <h1>AgentKit + RagKit</h1>
+    <p class="lede">Retrieval is a tool. Every hit carries a path and a score. Chain balances are not in the vector index. This UI is a citation trace, not a chatbot skin.</p>
+
+    <h2>Built against</h2>
+    <table class="slo">
+      <thead><tr><th>Contract</th><th>Rule</th><th>If missed</th></tr></thead>
+      <tbody>
+        <tr><td>Citation</td><td>path + score on every hit</td><td>No answer. Do not paraphrase undocumented claims</td></tr>
+        <tr><td>Corpus</td><td>owned markdown (ADRs, runbooks)</td><td>Refuse live chain as documents</td></tr>
+        <tr><td>Eval</td><td>golden questions, recall@k in ragkit</td><td>Do not ship on vibe</td></tr>
+        <tr><td>Runtime</td><td>Ollama / vLLM, OpenAI-compat local</td><td>CI uses hash embeddings, deterministic</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Trace</h2>
+    <p class="why">Ask a question the docs can answer. The panel shows what retrieve() returns before any model talks. Portfolio tools stay separate.</p>
+    <div class="stage">
+      <div class="stage-top">
+        <span>retrieve k=3</span>
+        <span id="hdr">corpus: architecture/</span>
+      </div>
+      <div class="ops" id="ops">
+        <button type="button" data-q="kafka" class="on">why Kafka?</button>
+        <button type="button" data-q="reorg">who owns reorgs?</button>
+        <button type="button" data-q="balance">ETH balance of 0xab?</button>
+      </div>
+      <div class="hits" id="hits"></div>
+      <p class="log" id="log"></p>
+    </div>
+
+    <h2>Why this shape</h2>
+    <p class="why">Chat-with-PDF dumps chunks, mixes chain facts with prose, and cannot be evaluated. AgentKit calls retrieve as a tool. RagKit owns chunking, embeddings, and recall. The model must quote paths.</p>
+    <p class="mono"><a href="https://github.com/0xmmiller/agentkit">agentkit</a>, <a href="https://github.com/0xmmiller/ragkit">ragkit</a>, <a href="https://github.com/0xmmiller/architecture/blob/main/adr/009-rag-citations.md">ADR-009</a></p>
+
+    <footer>
+      <span>Lab reconstructions. Original surface.</span>
+      <a href="./index.html">all systems</a>
+    </footer>
+  </div>
+  <script>
+    const hits = document.getElementById("hits");
+    const log = document.getElementById("log");
+    const hdr = document.getElementById("hdr");
+    const data = {
+      kafka: {
+        hdr: "corpus: architecture/",
+        log: "Answer allowed. Both hits are owned ADRs.",
+        rows: [
+          ["adr/001-message-broker.md", "0.86", "Redpanda for the lab. Not a second broker product."],
+          ["docs/scaling.md", "0.71", "Scale partitions on atlas.chain.log, keyed by address."],
+          ["adr/004-event-driven-architecture.md", "0.64", "Outbox before the bus. Dual-write is refused."],
+        ],
+      },
+      reorg: {
+        hdr: "corpus: architecture/",
+        log: "Answer allowed. Indexer is the only canonical reader.",
+        rows: [
+          ["adr/006-reorg-handling.md", "0.91", "Indexer emits atlas.chain.reorg. Consumers detach by block."],
+          ["docs/failure-scenarios.md", "0.77", "Do not smooth balances. Jumps are the feature."],
+          ["diagrams/transaction-flow.md", "0.58", "Submission worker is not a chain oracle."],
+        ],
+      },
+      balance: {
+        hdr: "retrieve skipped",
+        log: "No docs hit. This is chain state. Call get_portfolio. Do not embed balances in RAG.",
+        rows: [],
+      },
+    };
+    function paint(q) {
+      const d = data[q];
+      hdr.textContent = d.hdr;
+      log.textContent = d.log;
+      hits.innerHTML = d.rows.length
+        ? d.rows.map(([p, s, t]) => `<div class="hit"><code>${p}</code> score ${s}<div>${t}</div></div>`).join("")
+        : `<div class="hit">tool: get_portfolio(address)  -  not retrieve()</div>`;
+      [...document.querySelectorAll("#ops button")].forEach((b) => b.classList.toggle("on", b.dataset.q === q));
+    }
+    document.getElementById("ops").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (b) paint(b.dataset.q);
+    });
+    paint("kafka");
+  </script>
+</body>
+</html>
