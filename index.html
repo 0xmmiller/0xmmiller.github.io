@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="surfaces.css" />
 </head>
 <body>
   <div class="frame">
@@ -80,10 +81,113 @@
         </div>
       </article>
 
+      <article class="case" id="xassets">
+        <div class="case-head">
+          <div>
+            <p class="kind">02  RWA mint</p>
+            <h3>xAssets</h3>
+            <p class="blurb">Mint XUSD against collateral. Health factor is the contract. Reconstruction from the Figma, not a live mint.</p>
+          </div>
+          <p class="slo"><b>health factor</b> on every mint</p>
+        </div>
+        <div class="chrome">
+          <span class="dots"></span>
+          <span class="url">xassets / mint</span>
+          <span class="live">preview</span>
+        </div>
+        <div class="dark-stage">
+          <div class="xa-nav"><strong>xAssets</strong><div><span>Mint</span><span>Swap</span><span>Portfolio</span></div></div>
+          <div class="xa-card">
+            <div class="xa-tabs" id="xa-tabs">
+              <button type="button" data-tab="loan" class="on">Take loan</button>
+              <button type="button" data-tab="edit">Edit collateral</button>
+              <button type="button" data-tab="repay">Repay loan</button>
+            </div>
+            <label>Collateral asset</label>
+            <input id="xa-col" type="text" inputmode="decimal" value="1700.54" />
+            <div class="xa-meta"><span>USDT</span><span>Max 1700.54</span></div>
+            <label>XUSD to mint</label>
+            <input id="xa-mint" type="text" inputmode="decimal" value="200" />
+            <p class="hf">Health factor <b id="xa-hf">6.80</b></p>
+            <button type="button" class="xa-go" id="xa-go">Mint (preview)</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="case" id="pholend">
+        <div class="case-head">
+          <div>
+            <p class="kind">03  lending</p>
+            <h3>PhoLend</h3>
+            <p class="blurb">Supply and borrow on a markets table. Cross-chain supply exists in the file. This frame is the dashboard only.</p>
+          </div>
+          <p class="slo"><b>net / supplied / borrowed</b></p>
+        </div>
+        <div class="chrome">
+          <span class="dots"></span>
+          <span class="url">pholend / dashboard</span>
+          <span class="live">preview</span>
+        </div>
+        <div class="dark-stage">
+          <div class="ph-nav"><strong>PhoLend</strong><div><span>Dashboard</span><span>Markets</span></div></div>
+          <div class="ph-kpis">
+            <div><span>Net worth</span><b>$7,200</b></div>
+            <div><span>Supplied</span><b id="ph-supplied">$7,200</b></div>
+            <div><span>Borrowed</span><b id="ph-borrowed">$0</b></div>
+          </div>
+          <table class="ph-table" id="ph-table">
+            <thead><tr><th>Market</th><th>Supply APY</th><th></th></tr></thead>
+            <tbody>
+              <tr>
+                <td>ETH</td><td>2.1%</td>
+                <td><button type="button" data-act="Supply" data-asset="ETH">Supply</button><button type="button" data-act="Borrow" data-asset="ETH">Borrow</button></td>
+              </tr>
+              <tr>
+                <td>USDT</td><td>4.4%</td>
+                <td><button type="button" data-act="Supply" data-asset="USDT">Supply</button><button type="button" data-act="Borrow" data-asset="USDT">Borrow</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="log" id="ph-note" style="color:#8b919a">Pick supply or borrow. No chain call.</p>
+        </div>
+      </article>
+
+      <article class="case" id="helios">
+        <div class="case-head">
+          <div>
+            <p class="kind">04  iOS wallet</p>
+            <h3>Helios</h3>
+            <p class="blurb">TRON send flow. Hold-to-send, Tron tags. Reconstruction of the store screens, not the App Store binary.</p>
+          </div>
+          <p class="slo"><b>iOS</b> <a href="https://apps.apple.com/kz/app/helios-tron-wallet/id6739870604">App Store</a></p>
+        </div>
+        <div class="chrome">
+          <span class="dots"></span>
+          <span class="url">helios / send</span>
+          <span class="live">preview</span>
+        </div>
+        <div class="helios">
+          <div class="phone">
+            <div class="phone-top"><span>9:41</span><span>TRON</span></div>
+            <h4>You are sending</h4>
+            <div class="h-amt" id="h-amt">200</div>
+            <p class="tag">USDT  to  @justin  preview</p>
+            <div class="h-pad" id="h-pad">
+              <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
+              <button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+              <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button>
+              <button type="button" data-k=".">.</button><button type="button" data-k="0">0</button><button type="button" data-k="del">del</button>
+            </div>
+            <button type="button" class="h-send" id="h-send">Hold to send</button>
+            <p class="h-note" id="h-note">Preview. Not a TRON transaction.</p>
+          </div>
+        </div>
+      </article>
+
       <article class="case" id="atlas">
         <div class="case-head">
           <div>
-            <p class="kind">02  asset operations</p>
+            <p class="kind">05  asset operations</p>
             <h3>Atlas</h3>
             <p class="blurb">Idempotent intents, outbox, indexer as the only chain reader. Failures stay on this page.</p>
           </div>
@@ -116,7 +220,7 @@
       <article class="case" id="rag">
         <div class="case-head">
           <div>
-            <p class="kind">03  citations</p>
+            <p class="kind">06  citations</p>
             <h3>AgentKit + RagKit</h3>
             <p class="blurb">Retrieve returns paths. Chain balances are not in the index.</p>
           </div>
@@ -141,7 +245,7 @@
       <article class="case" id="chain">
         <div class="case-head">
           <div>
-            <p class="kind">04  reorgs, measured</p>
+            <p class="kind">07  reorgs, measured</p>
             <h3>ChainKit / PyScale</h3>
             <p class="blurb">Detach and replay. p95 from an Apple M2, 2026-09-18, in-process.</p>
           </div>
@@ -180,5 +284,6 @@
     </footer>
   </div>
   <script src="site.js"></script>
+  <script src="surfaces.js"></script>
 </body>
 </html>

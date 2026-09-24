@@ -10,6 +10,27 @@ const CASES = [
     ],
   },
   {
+    id: "xassets",
+    title: "xAssets",
+    kind: "RWA mint",
+    blurb: "Mint XUSD against collateral. Health factor on every mint.",
+    slo: [{ k: "health factor", v: "on mint" }],
+  },
+  {
+    id: "pholend",
+    title: "PhoLend",
+    kind: "lending",
+    blurb: "Supply and borrow. Dashboard reconstruction from Figma.",
+    slo: [{ k: "markets", v: "supply / borrow" }],
+  },
+  {
+    id: "helios",
+    title: "Helios",
+    kind: "iOS wallet",
+    blurb: "TRON send flow. Reconstruction of the store screens.",
+    slo: [{ k: "iOS", v: "App Store" }],
+  },
+  {
     id: "atlas",
     title: "Atlas",
     kind: "asset operations",
@@ -92,6 +113,18 @@ function preview(id) {
     return `<div class="bar"><span>xSWAP</span><span>swap</span></div>
       <div>XFI to USDT, preview quote</div>
       <div class="row"><span class="pill">XFI</span><span class="pill">USDT</span></div>`;
+  }
+  if (id === "xassets") {
+    return `<div class="bar"><span>xAssets</span><span>mint</span></div>
+      <div>XUSD against USDT. Health factor 6.80</div>`;
+  }
+  if (id === "pholend") {
+    return `<div class="bar"><span>PhoLend</span><span>dashboard</span></div>
+      <div>ETH / USDT markets. Supply or borrow.</div>`;
+  }
+  if (id === "helios") {
+    return `<div class="bar"><span>Helios</span><span>send</span></div>
+      <div>200 USDT to @justin. Hold to send.</div>`;
   }
   if (id === "atlas") {
     return `<div class="bar"><span>operator</span><span>degraded: bus</span></div>

@@ -1,0 +1,133 @@
+.dark-stage {
+  background: #0c0e12;
+  color: #e8eaed;
+  border-radius: 0 0 16px 16px;
+  padding: 0.9rem 1rem 1.2rem;
+  min-height: 400px;
+}
+.xa-nav, .ph-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8b919a;
+  margin-bottom: 0.9rem;
+}
+.xa-nav strong, .ph-nav strong { color: #fff; font-weight: 600; letter-spacing: 0.12em; }
+.xa-nav span, .ph-nav span { margin-left: 0.9rem; }
+.xa-card, .ph-panel {
+  max-width: 420px;
+  margin: 0 auto;
+  background: #161a22;
+  border: 1px solid #2a303b;
+  border-radius: 16px;
+  padding: 1.1rem;
+}
+.xa-tabs, .ph-tabs {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+}
+.xa-tabs button, .ph-tabs button, .xa-go, .ph-go, .h-go {
+  font: inherit;
+  font-size: 0.75rem;
+  border: 1px solid #2a303b;
+  background: #11151c;
+  color: #c8cdd4;
+  padding: 0.4rem 0.65rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.xa-tabs .on, .ph-tabs .on, .h-go.on { background: #2ee6a6; color: #0c0e12; border-color: #2ee6a6; }
+.xa-card label, .ph-panel label { display: block; font-size: 0.72rem; color: #8b919a; margin: 0.55rem 0 0.25rem; }
+.xa-card input {
+  width: 100%;
+  border: 0;
+  background: #0c0e12;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0.75rem;
+  font: inherit;
+  font-size: 1.1rem;
+}
+.xa-meta, .ph-meta { display: flex; justify-content: space-between; font-size: 0.72rem; color: #8b919a; margin-top: 0.45rem; }
+.hf { margin-top: 0.9rem; font-size: 0.78rem; }
+.hf b { color: #2ee6a6; }
+.hf.warn b { color: #ffb020; }
+.hf.bad b { color: #ff5a6a; }
+.xa-go, .ph-go { width: 100%; margin-top: 0.9rem; background: #2ee6a6; color: #0c0e12; border: 0; padding: 0.7rem; font-weight: 600; }
+.xa-go[disabled], .h-send[disabled] { opacity: 0.55; cursor: default; }
+
+.ph-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+.ph-kpis div {
+  background: #161a22;
+  border: 1px solid #2a303b;
+  border-radius: 12px;
+  padding: 0.7rem 0.8rem;
+}
+.ph-kpis b { display: block; font-size: 1.05rem; }
+.ph-kpis span { font-size: 0.68rem; color: #8b919a; text-transform: uppercase; letter-spacing: 0.06em; }
+.ph-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.ph-table th { text-align: left; color: #8b919a; font-weight: 500; padding: 0.4rem 0; }
+.ph-table td { padding: 0.55rem 0; border-top: 1px solid #2a303b; }
+.ph-table button { margin-right: 0.3rem; }
+
+.helios {
+  display: grid;
+  place-items: center;
+  background: #141218;
+  border-radius: 0 0 16px 16px;
+  padding: 1.2rem;
+}
+.phone {
+  width: min(100%, 280px);
+  background: #1c1820;
+  border: 1px solid #3a3340;
+  border-radius: 28px;
+  padding: 0.9rem 0.9rem 1.1rem;
+  color: #f4eef2;
+}
+.phone-top { display: flex; justify-content: space-between; font-size: 0.68rem; color: #9a9098; }
+.phone h4 { margin: 1.1rem 0 0.2rem; font-size: 0.75rem; font-weight: 500; color: #9a9098; }
+.phone .bal { font-size: 1.7rem; font-weight: 600; letter-spacing: -0.03em; }
+.phone .tag { font-size: 0.72rem; color: #9a9098; margin-bottom: 0.9rem; }
+.h-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  margin: 0.6rem 0;
+}
+.h-pad button {
+  font: inherit;
+  font-size: 1.05rem;
+  border: 0;
+  background: #2a2430;
+  color: #fff;
+  border-radius: 12px;
+  padding: 0.55rem 0;
+  cursor: pointer;
+}
+.h-send {
+  width: 100%;
+  border: 0;
+  background: #e23b5a;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.75rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.h-note { margin: 0.55rem 0 0; font-size: 0.68rem; color: #9a9098; min-height: 1.1rem; }
+.h-amt { font-size: 1.35rem; font-weight: 600; min-height: 1.6rem; }
+
+@media (max-width: 720px) {
+  .ph-kpis { grid-template-columns: 1fr; }
+}
