@@ -92,15 +92,15 @@
         </div>
         <div class="chrome">
           <span class="dots"></span>
-          <span class="url">xassets / trade</span>
+          <span class="url" id="xa-url">xassets / trade</span>
           <span class="live">preview</span>
         </div>
-        <div class="dark-stage" id="xa-stage" data-view="mint">
+        <div class="dark-stage" id="xa-stage" data-view="trade">
           <div class="xa-nav">
             <strong>xAssets</strong>
             <div class="x-links">
-              <button type="button" data-xatab="mint" class="on">Mint</button>
-              <button type="button" data-xatab="trade">Trade</button>
+              <button type="button" data-xatab="mint">Mint</button>
+              <button type="button" data-xatab="trade" class="on">Trade</button>
             </div>
           </div>
           <div class="xa-mint">
@@ -116,11 +116,25 @@
           <div class="xa-trade">
             <div class="xa-chart">
               <div class="xa-pair">xTesla / XUSD <span id="xa-px">182.40</span></div>
-              <svg viewBox="0 0 320 90" aria-hidden="true">
-                <polyline id="xa-line" fill="none" stroke="#2ee6a6" stroke-width="2" points="0,60 40,55 80,62 120,40 160,48 200,28 240,35 280,18 320,24" />
-                <line id="xa-liq" x1="0" y1="70" x2="320" y2="70" stroke="#ff5a6a" stroke-dasharray="4 4" />
+              <svg viewBox="0 0 320 110" aria-hidden="true">
+                <defs>
+                  <linearGradient id="xa-fill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#2ee6a6" stop-opacity="0.35"/>
+                    <stop offset="1" stop-color="#2ee6a6" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="28" x2="320" y2="28" stroke="#2a303b"/>
+                <line x1="0" y1="55" x2="320" y2="55" stroke="#2a303b"/>
+                <line x1="0" y1="82" x2="320" y2="82" stroke="#2a303b"/>
+                <polygon id="xa-area" fill="url(#xa-fill)" points="0,110 0,72 40,66 80,74 120,48 160,58 200,34 240,42 280,22 320,29 320,110"/>
+                <polyline id="xa-line" fill="none" stroke="#2ee6a6" stroke-width="2" points="0,72 40,66 80,74 120,48 160,58 200,34 240,42 280,22 320,29"/>
+                <line id="xa-liq" x1="0" y1="88" x2="320" y2="88" stroke="#ff5a6a" stroke-dasharray="4 4"/>
               </svg>
-              <p class="xa-meta"><span>Long  <b id="xa-pnl">+4.2%</b></span><span>Liq <b id="xa-liqpx">148.10</b></span></p>
+              <p class="xa-meta">
+                <span>Mark <b>182.40</b></span>
+                <span>Notional <b id="xa-not">1200</b></span>
+                <span>Liq <b id="xa-liqpx">127.68</b></span>
+              </p>
             </div>
             <div class="xa-card">
               <div class="xa-tabs" id="xa-side">
@@ -131,7 +145,8 @@
               <input id="xa-sz" type="text" inputmode="decimal" value="400" />
               <label>Leverage <b id="xa-levn">3</b>x</label>
               <input id="xa-lev" type="range" min="1" max="10" value="3" />
-              <button type="button" class="xa-go" id="xa-open">Open (preview)</button>
+              <p class="xa-meta" id="xa-pnl">preview book, no fill</p>
+              <button type="button" class="xa-go" id="xa-open">Open long (preview)</button>
             </div>
           </div>
         </div>
@@ -142,37 +157,74 @@
           <div>
             <p class="kind">03  lending</p>
             <h3>PhoLend</h3>
-            <p class="blurb">Landing first: appetite, docs, treasury. Launch app stays in this frame.</p>
+            <p class="blurb">Landing first: appetite, docs, treasury, DAO. App and dashboard stay in this frame.</p>
           </div>
           <p class="slo"><b>$1.47M</b> treasury preview</p>
         </div>
         <div class="chrome">
           <span class="dots"></span>
-          <span class="url">pholend / land</span>
+          <span class="url" id="pho-url">pholend / land</span>
           <span class="live">preview</span>
         </div>
         <div class="pho" id="pho-stage" data-view="land">
           <div class="pho-bar">
-            <strong>PhoLend</strong>
+            <strong><i class="pho-mark" aria-hidden="true"></i> PhoLend</strong>
             <div class="x-links">
               <button type="button" data-pho="land" class="on">About</button>
-              <button type="button" data-pho="app">Launch app</button>
+              <button type="button" data-pho="dao">DAO</button>
+              <button type="button" class="pho-launch" data-pho="app">Launch app</button>
             </div>
           </div>
           <div class="pho-land">
             <div class="pho-hero">
               <div class="pho-bowl">
-                <p>PHO Lend - satisfy your financial appetite</p>
-                <svg class="bowl" viewBox="0 0 160 90" aria-hidden="true"><ellipse cx="80" cy="48" rx="62" ry="28" fill="none" stroke="#fff" stroke-width="2"/><path d="M40 48 Q80 78 120 48" fill="none" stroke="#fff" stroke-width="2"/><line x1="55" y1="12" x2="70" y2="52" stroke="#fff" stroke-width="2"/><line x1="95" y1="12" x2="80" y2="52" stroke="#fff" stroke-width="2"/></svg>
+                <p>PHO Lend: satisfy your financial appetite</p>
+                <svg class="bowl" viewBox="0 0 200 120" aria-hidden="true">
+                  <ellipse cx="100" cy="78" rx="78" ry="28" fill="none" stroke="#fff" stroke-width="2"/>
+                  <path d="M36 70 Q100 118 164 70" fill="none" stroke="#fff" stroke-width="2"/>
+                  <path d="M48 68 Q70 92 92 68 Q110 92 128 66 Q146 90 158 68" fill="none" stroke="#fff" stroke-width="1.4"/>
+                  <line x1="62" y1="8" x2="82" y2="78" stroke="#fff" stroke-width="2.4"/>
+                  <line x1="138" y1="8" x2="118" y2="78" stroke="#fff" stroke-width="2.4"/>
+                  <rect x="118" y="36" width="16" height="16" rx="3" fill="#ff7a3a"/>
+                  <rect x="138" y="52" width="16" height="16" rx="3" fill="#d4e2fb"/>
+                  <rect x="128" y="70" width="16" height="16" rx="3" fill="#2ee6a6"/>
+                </svg>
               </div>
-              <div class="pho-copy">Supply to earn. Borrow to multiply.</div>
-              <button type="button" class="pho-tile orange" data-pho="app">Docs</button>
-              <button type="button" class="pho-tile blue" data-pho="app">Treasury</button>
+              <div class="pho-copy">
+                <span>Supply to earn on your assets.<br>Borrow to multiply your earnings.</span>
+                <button type="button" class="pho-ghost" data-pho="app">Launch app</button>
+              </div>
+              <button type="button" class="pho-tile orange" data-pho="app"><small>Discover our code</small>Docs</button>
+              <button type="button" class="pho-tile blue" data-pho="dao"><small>Token pre-sale</small>Treasury</button>
+            </div>
+            <div class="pho-gate">
+              <h4>Your Gateway to Simple, Secure, and Rewarding Lending</h4>
+              <p>Protocol preview: supply, borrow, DAO. Not the production app.</p>
+            </div>
+          </div>
+          <div class="pho-dao">
+            <div class="pho-pills">
+              <span>Decentralization</span><span>Governance</span><span>Lending and Borrowing</span><span>Global Accessibility</span>
+            </div>
+            <div class="pho-treas">
+              <div>
+                <h4>Treasury &amp; Incentives</h4>
+                <p>Incentives for governance and protocol growth. Preview numbers only.</p>
+              </div>
+              <div class="pho-cash">
+                <small>Launch app</small>
+                <b>$1,472,089</b>
+                <span>Community Treasury</span>
+              </div>
             </div>
           </div>
           <div class="pho-app">
             <div class="pho-kpis">
-              <div><span>Net worth</span><b>$3,397</b><small>HF 16.9%</small></div>
+              <div class="pho-nw">
+                <span>Net worth</span>
+                <b>$3,397.01</b>
+                <small>HF 16.94%, collateral $3,900</small>
+              </div>
               <div>
                 <span>Supply $4,209</span>
                 <div class="donut" style="background:conic-gradient(#ff7a3a 0 62%, #1c1c1c 62% 77%, #2ee6a6 77% 100%)"></div>
@@ -182,14 +234,23 @@
                 <div class="donut" style="background:conic-gradient(#1c1c1c 0 40%, #cfe0ff 40% 100%)"></div>
               </div>
             </div>
-            <table class="pho-table">
-              <thead><tr><th>My supplies</th><th>APY</th><th></th></tr></thead>
-              <tbody>
-                <tr><td>ETH</td><td>3.78%</td><td class="orange">Withdraw</td></tr>
-                <tr><td>XFI</td><td>8.92%</td><td class="orange">Withdraw</td></tr>
-                <tr><td>USDT</td><td>4.47%</td><td class="orange">Withdraw</td></tr>
-              </tbody>
-            </table>
+            <div class="pho-split">
+              <table class="pho-table">
+                <thead><tr><th>My supplies</th><th>APY</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td>ETH</td><td>3.78%</td><td class="orange">Withdraw</td></tr>
+                  <tr><td>XFI</td><td>8.92%</td><td class="orange">Withdraw</td></tr>
+                  <tr><td>USDT</td><td>4.47%</td><td class="orange">Withdraw</td></tr>
+                </tbody>
+              </table>
+              <table class="pho-table">
+                <thead><tr><th>My borrows</th><th>APY</th><th></th></tr></thead>
+                <tbody>
+                  <tr><td>xUSD</td><td>3.78%</td><td class="blue">Repay</td></tr>
+                  <tr><td>DAI</td><td>1.14%</td><td class="blue">Repay</td></tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </article>
@@ -205,26 +266,32 @@
         </div>
         <div class="chrome">
           <span class="dots"></span>
-          <span class="url">helios / popup</span>
+          <span class="url" id="h-url">helios / popup</span>
           <span class="live">preview</span>
         </div>
         <div class="helios" id="h-stage" data-view="home">
           <div class="mm">
             <div class="mm-top">
               <span class="mm-net">Tron Mainnet</span>
-              <span class="mm-mark">H</span>
+              <span class="mm-acct-mini">Helios 1</span>
+              <span class="mm-menu" aria-hidden="true"></span>
+            </div>
+            <div class="mm-ident" aria-hidden="true">
+              <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#14c8b0"/><circle cx="24" cy="24" r="10" fill="#0b1f2a"/><path d="M24 6 L28 18 L24 16 L20 18 Z" fill="#0b1f2a"/></svg>
             </div>
             <div class="mm-acct">Helios 1<br><code>TXY9...k2p</code></div>
             <div class="mm-home">
               <div class="bal" id="h-bal">$14,643.83</div>
               <div class="mm-acts">
-                <button type="button" data-h="send">Send</button>
-                <button type="button" data-h="home">Swap</button>
-                <button type="button" data-h="home">Buy</button>
+                <button type="button" data-h="send"><i></i>Send</button>
+                <button type="button" data-h="home"><i></i>Swap</button>
+                <button type="button" data-h="home"><i></i>Buy</button>
               </div>
+              <div class="mm-tabs"><span class="on">Tokens</span><span>Activity</span></div>
               <ul class="mm-tok">
-                <li><b>TRX</b><span>2,410.00</span></li>
-                <li><b>USDT</b><span>8,102.40</span></li>
+                <li><i class="t trx"></i><b>TRX</b><span>2,410.00</span></li>
+                <li><i class="t usdt"></i><b>USDT</b><span>8,102.40</span></li>
+                <li><i class="t sun"></i><b>SUN</b><span>410.12</span></li>
               </ul>
             </div>
             <div class="mm-send">
