@@ -1,5 +1,15 @@
 const CASES = [
   {
+    id: "xswap",
+    title: "xSwap",
+    kind: "live product",
+    blurb: "AMM, pools, farm. Reconstruction of the live surface, on one page.",
+    slo: [
+      { k: "surface", v: "live" },
+      { k: "host", v: "xswap.ms" },
+    ],
+  },
+  {
     id: "atlas",
     title: "Atlas",
     kind: "asset operations",
@@ -78,6 +88,11 @@ const CSS = `
 `;
 
 function preview(id) {
+  if (id === "xswap") {
+    return `<div class="bar"><span>xSWAP</span><span>swap</span></div>
+      <div>XFI to USDT, preview quote</div>
+      <div class="row"><span class="pill">XFI</span><span class="pill">USDT</span></div>`;
+  }
   if (id === "atlas") {
     return `<div class="bar"><span>operator</span><span>degraded: bus</span></div>
       <div>GET /v1/portfolio/0xab.. p95 41ms</div>
@@ -101,8 +116,8 @@ function preview(id) {
     </div>`;
 }
 
-function card(c, base) {
-  const href = new URL(c.page, base).href;
+function card(c, home) {
+  const href = home + "#" + c.id;
   const slo = c.slo.map((s) => `<span><b>${s.v}</b> ${s.k}</span>`).join("");
   return `<a class="card" href="${href}">
     <div class="screen">${preview(c.id)}</div>
@@ -118,9 +133,9 @@ function card(c, base) {
 class MillerWork extends HTMLElement {
   connectedCallback() {
     const root = this.attachShadow({ mode: "open" });
-    const base = new URL("./", import.meta.url);
+    const home = new URL("../", import.meta.url).href;
     root.innerHTML = `<style>${CSS}</style>
-      <div class="grid">${CASES.map((c) => card(c, base)).join("")}</div>
+      <div class="grid">${CASES.map((c) => card(c, home)).join("")}</div>
       ${this.hasAttribute("quiet") ? "" : `<p class="note">Lab reconstructions. Original operator surfaces, not employer product UI. SLOs are lab targets.</p>`}`;
   }
 }

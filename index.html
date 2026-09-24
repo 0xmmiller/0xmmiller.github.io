@@ -6,37 +6,162 @@
   <title>Mark Miller - backend, AI/RAG, Web3</title>
   <link rel="icon" href="/favicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <script type="module" src="/work/block.js"></script>
 </head>
 <body>
   <div class="frame">
     <header>
-      <span class="id">0xmmiller / engineer</span>
+      <span class="id">0xmmiller</span>
       <nav>
         <a href="#work">work</a>
-        <a href="/work/">systems</a>
         <a href="#hire">contract</a>
         <a href="https://github.com/0xmmiller">github</a>
       </nav>
     </header>
 
     <section class="intro">
-      <div>
-        <h1>Mark Miller</h1>
-        <p class="role">Backend engineer and AI developer. RAG, local models, distributed systems, EVM data planes.</p>
-      </div>
-      <aside>
-        <p>Available for contract.</p>
-        <p>I ship the system: APIs, indexers, agent runtimes, retrieval. Not a chatbot bolted on a FAQ.</p>
-        <p class="mono">Remote, English</p>
-      </aside>
+      <p class="eyebrow">backend engineer and AI developer</p>
+      <h1>Mark Miller</h1>
+      <p class="role">RAG, local models, distributed systems, EVM data planes. Available for contract.</p>
     </section>
 
     <section id="work">
       <h2>Selected work</h2>
-      <p class="work-lead">Click a preview. Boards are original lab surfaces: maps, SLOs, failure. Not employer product UI.</p>
-      <miller-work quiet></miller-work>
+      <p class="work-lead">Live-looking surfaces on this page. No extra routes. Reconstructions, not employer screenshots.</p>
+
+      <article class="case" id="xswap">
+        <div class="case-head">
+          <div>
+            <p class="kind">01  live product</p>
+            <h3>xSwap</h3>
+            <p class="blurb">AMM, pools, farm. Visual reconstruction of the live app. Stay here: home and swap switch inside the frame.</p>
+          </div>
+          <p class="slo"><b>live</b> <a href="https://xswap.ms">xswap.ms</a></p>
+        </div>
+        <div class="chrome">
+          <span class="dots"></span>
+          <span class="url">xswap.ms</span>
+          <span class="live">preview</span>
+        </div>
+        <div class="xswap" id="xswap-stage" data-view="home">
+          <div class="x-nav">
+            <strong>xSWAP</strong>
+            <div class="x-links">
+              <button type="button" data-xview="home" class="on">Home</button>
+              <button type="button" data-xview="swap">Swap</button>
+              <span>Pools</span>
+              <span>Farm</span>
+            </div>
+            <span class="x-wallet">Connect wallet</span>
+          </div>
+          <div class="x-home">
+            <div>
+              <h4>Trade without limits.</h4>
+              <p>First AMM surface on CrossFi. This frame is a reconstruction for portfolio, not the production wallet flow.</p>
+              <button type="button" class="x-cta" data-xview="swap">Get started</button>
+            </div>
+            <div class="torus" aria-hidden="true"></div>
+          </div>
+          <div class="x-swap">
+            <div class="x-card">
+              <h4>Swap</h4>
+              <label>From<input id="x-in" type="text" inputmode="decimal" value="1" /></label>
+              <div class="x-row"><button type="button" id="x-tok">XFI</button></div>
+              <button type="button" id="x-flip" class="x-flip" aria-label="flip">flip</button>
+              <label>To<input id="x-out" type="text" readonly value="0.42" /></label>
+              <div class="x-row"><button type="button" id="x-tok2">USDT</button></div>
+              <p class="x-rate" id="x-rate">preview quote 1 XFI = 0.42 USDT, not a feed</p>
+              <button type="button" class="x-cta x-cta-block" disabled>Connect wallet</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="case" id="atlas">
+        <div class="case-head">
+          <div>
+            <p class="kind">02  asset operations</p>
+            <h3>Atlas</h3>
+            <p class="blurb">Idempotent intents, outbox, indexer as the only chain reader. Failures stay on this page.</p>
+          </div>
+          <p class="slo"><b>&lt; 50ms</b> p95 &nbsp; <b>&lt; 12s</b> lag &nbsp; <b>99.9%</b></p>
+        </div>
+        <div class="chrome">
+          <span class="dots"></span>
+          <span class="url">atlas / operator</span>
+        </div>
+        <div class="stage ink">
+          <div class="stage-top"><span id="a-hdr">healthy</span><span id="a-slo">p95 41ms, lag 4s</span></div>
+          <div class="graph" id="a-graph">
+            <div class="node" data-n="api">platform-api<small>BFF</small></div>
+            <div class="node" data-n="tx">transaction<small>outbox</small></div>
+            <div class="node" data-n="idx">indexer<small>RPC</small></div>
+            <div class="node" data-n="port">portfolio<small>cache</small></div>
+            <div class="node" data-n="bus">redpanda<small>bus</small></div>
+            <div class="node" data-n="nt">notifyd<small>Go</small></div>
+          </div>
+          <div class="ops" id="a-ops">
+            <button type="button" data-mode="healthy" class="on">healthy</button>
+            <button type="button" data-mode="rpc">RPC brownout</button>
+            <button type="button" data-mode="bus">bus down</button>
+            <button type="button" data-mode="intent">create intent</button>
+          </div>
+          <p class="log" id="a-log">The UI may look worse. Freshness may not lie.</p>
+        </div>
+      </article>
+
+      <article class="case" id="rag">
+        <div class="case-head">
+          <div>
+            <p class="kind">03  citations</p>
+            <h3>AgentKit + RagKit</h3>
+            <p class="blurb">Retrieve returns paths. Chain balances are not in the index.</p>
+          </div>
+          <p class="slo"><b>path + score</b> or no answer</p>
+        </div>
+        <div class="chrome">
+          <span class="dots"></span>
+          <span class="url">ragkit / retrieve</span>
+        </div>
+        <div class="stage ink">
+          <div class="stage-top"><span>retrieve k=3</span><span id="r-hdr">corpus: architecture/</span></div>
+          <div class="ops" id="r-ops">
+            <button type="button" data-q="kafka" class="on">why Kafka?</button>
+            <button type="button" data-q="reorg">who owns reorgs?</button>
+            <button type="button" data-q="balance">ETH balance?</button>
+          </div>
+          <div class="hits" id="r-hits"></div>
+          <p class="log" id="r-log"></p>
+        </div>
+      </article>
+
+      <article class="case" id="chain">
+        <div class="case-head">
+          <div>
+            <p class="kind">04  reorgs, measured</p>
+            <h3>ChainKit / PyScale</h3>
+            <p class="blurb">Detach and replay. p95 from an Apple M2, 2026-09-18, in-process.</p>
+          </div>
+          <p class="slo"><b>6.4ms</b> async p95 &nbsp; <b>1</b> singleflight call</p>
+        </div>
+        <div class="chrome">
+          <span class="dots"></span>
+          <span class="url">chainkit / head</span>
+        </div>
+        <div class="stage ink">
+          <div class="stage-top"><span id="c-hdr">canonical head n</span><span id="c-slo">as_of_block n</span></div>
+          <div class="chain" id="c-chain"></div>
+          <div class="ops" id="c-ops">
+            <button type="button" data-mode="canon" class="on">canonical</button>
+            <button type="button" data-mode="reorg">reorg depth 3</button>
+            <button type="button" data-mode="replay">replay</button>
+          </div>
+          <p class="log" id="c-log"></p>
+        </div>
+      </article>
     </section>
 
     <section id="hire">
@@ -46,7 +171,7 @@
         <li>AI developer work: RAG, tool-calling agents, local model runtimes</li>
         <li>Web3 off-chain: EVM indexers, reorgs, RPC failover</li>
       </ul>
-      <p>Start with a GitHub issue on <a href="https://github.com/0xmmiller/architecture/issues">architecture</a>, label <code>contract</code>. Public portfolio is the proof, not a pitch deck.</p>
+      <p>GitHub issue on <a href="https://github.com/0xmmiller/architecture/issues">architecture</a>, label <code>contract</code>.</p>
     </section>
 
     <footer>
@@ -54,5 +179,6 @@
       <a href="https://github.com/0xmmiller">github.com/0xmmiller</a>
     </footer>
   </div>
+  <script src="site.js"></script>
 </body>
 </html>
