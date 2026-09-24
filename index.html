@@ -84,32 +84,55 @@
       <article class="case" id="xassets">
         <div class="case-head">
           <div>
-            <p class="kind">02  RWA mint</p>
+            <p class="kind">02  RWA + leverage</p>
             <h3>xAssets</h3>
-            <p class="blurb">Mint XUSD against collateral. Health factor is the contract. Reconstruction from the Figma, not a live mint.</p>
+            <p class="blurb">Mint XUSD, then trade a synthetic with leverage. Chart and liquidation are preview math, not a live book.</p>
           </div>
-          <p class="slo"><b>health factor</b> on every mint</p>
+          <p class="slo"><b>health factor</b> and <b>liq price</b></p>
         </div>
         <div class="chrome">
           <span class="dots"></span>
-          <span class="url">xassets / mint</span>
+          <span class="url">xassets / trade</span>
           <span class="live">preview</span>
         </div>
-        <div class="dark-stage">
-          <div class="xa-nav"><strong>xAssets</strong><div><span>Mint</span><span>Swap</span><span>Portfolio</span></div></div>
-          <div class="xa-card">
-            <div class="xa-tabs" id="xa-tabs">
-              <button type="button" data-tab="loan" class="on">Take loan</button>
-              <button type="button" data-tab="edit">Edit collateral</button>
-              <button type="button" data-tab="repay">Repay loan</button>
+        <div class="dark-stage" id="xa-stage" data-view="mint">
+          <div class="xa-nav">
+            <strong>xAssets</strong>
+            <div class="x-links">
+              <button type="button" data-xatab="mint" class="on">Mint</button>
+              <button type="button" data-xatab="trade">Trade</button>
             </div>
-            <label>Collateral asset</label>
-            <input id="xa-col" type="text" inputmode="decimal" value="1700.54" />
-            <div class="xa-meta"><span>USDT</span><span>Max 1700.54</span></div>
-            <label>XUSD to mint</label>
-            <input id="xa-mint" type="text" inputmode="decimal" value="200" />
-            <p class="hf">Health factor <b id="xa-hf">6.80</b></p>
-            <button type="button" class="xa-go" id="xa-go">Mint (preview)</button>
+          </div>
+          <div class="xa-mint">
+            <div class="xa-card">
+              <label>Collateral USDT</label>
+              <input id="xa-col" type="text" inputmode="decimal" value="1700.54" />
+              <label>XUSD to mint</label>
+              <input id="xa-mint" type="text" inputmode="decimal" value="200" />
+              <p class="hf">Health factor <b id="xa-hf">6.80</b></p>
+              <button type="button" class="xa-go" id="xa-go">Mint (preview)</button>
+            </div>
+          </div>
+          <div class="xa-trade">
+            <div class="xa-chart">
+              <div class="xa-pair">xTesla / XUSD <span id="xa-px">182.40</span></div>
+              <svg viewBox="0 0 320 90" aria-hidden="true">
+                <polyline id="xa-line" fill="none" stroke="#2ee6a6" stroke-width="2" points="0,60 40,55 80,62 120,40 160,48 200,28 240,35 280,18 320,24" />
+                <line id="xa-liq" x1="0" y1="70" x2="320" y2="70" stroke="#ff5a6a" stroke-dasharray="4 4" />
+              </svg>
+              <p class="xa-meta"><span>Long  <b id="xa-pnl">+4.2%</b></span><span>Liq <b id="xa-liqpx">148.10</b></span></p>
+            </div>
+            <div class="xa-card">
+              <div class="xa-tabs" id="xa-side">
+                <button type="button" data-side="long" class="on">Long</button>
+                <button type="button" data-side="short">Short</button>
+              </div>
+              <label>Size XUSD</label>
+              <input id="xa-sz" type="text" inputmode="decimal" value="400" />
+              <label>Leverage <b id="xa-levn">3</b>x</label>
+              <input id="xa-lev" type="range" min="1" max="10" value="3" />
+              <button type="button" class="xa-go" id="xa-open">Open (preview)</button>
+            </div>
           </div>
         </div>
       </article>
@@ -119,67 +142,100 @@
           <div>
             <p class="kind">03  lending</p>
             <h3>PhoLend</h3>
-            <p class="blurb">Supply and borrow on a markets table. Cross-chain supply exists in the file. This frame is the dashboard only.</p>
+            <p class="blurb">Landing first: appetite, docs, treasury. Launch app stays in this frame.</p>
           </div>
-          <p class="slo"><b>net / supplied / borrowed</b></p>
+          <p class="slo"><b>$1.47M</b> treasury preview</p>
         </div>
         <div class="chrome">
           <span class="dots"></span>
-          <span class="url">pholend / dashboard</span>
+          <span class="url">pholend / land</span>
           <span class="live">preview</span>
         </div>
-        <div class="dark-stage">
-          <div class="ph-nav"><strong>PhoLend</strong><div><span>Dashboard</span><span>Markets</span></div></div>
-          <div class="ph-kpis">
-            <div><span>Net worth</span><b>$7,200</b></div>
-            <div><span>Supplied</span><b id="ph-supplied">$7,200</b></div>
-            <div><span>Borrowed</span><b id="ph-borrowed">$0</b></div>
+        <div class="pho" id="pho-stage" data-view="land">
+          <div class="pho-bar">
+            <strong>PhoLend</strong>
+            <div class="x-links">
+              <button type="button" data-pho="land" class="on">About</button>
+              <button type="button" data-pho="app">Launch app</button>
+            </div>
           </div>
-          <table class="ph-table" id="ph-table">
-            <thead><tr><th>Market</th><th>Supply APY</th><th></th></tr></thead>
-            <tbody>
-              <tr>
-                <td>ETH</td><td>2.1%</td>
-                <td><button type="button" data-act="Supply" data-asset="ETH">Supply</button><button type="button" data-act="Borrow" data-asset="ETH">Borrow</button></td>
-              </tr>
-              <tr>
-                <td>USDT</td><td>4.4%</td>
-                <td><button type="button" data-act="Supply" data-asset="USDT">Supply</button><button type="button" data-act="Borrow" data-asset="USDT">Borrow</button></td>
-              </tr>
-            </tbody>
-          </table>
-          <p class="log" id="ph-note" style="color:#8b919a">Pick supply or borrow. No chain call.</p>
+          <div class="pho-land">
+            <div class="pho-hero">
+              <div class="pho-bowl">
+                <p>PHO Lend - satisfy your financial appetite</p>
+                <svg class="bowl" viewBox="0 0 160 90" aria-hidden="true"><ellipse cx="80" cy="48" rx="62" ry="28" fill="none" stroke="#fff" stroke-width="2"/><path d="M40 48 Q80 78 120 48" fill="none" stroke="#fff" stroke-width="2"/><line x1="55" y1="12" x2="70" y2="52" stroke="#fff" stroke-width="2"/><line x1="95" y1="12" x2="80" y2="52" stroke="#fff" stroke-width="2"/></svg>
+              </div>
+              <div class="pho-copy">Supply to earn. Borrow to multiply.</div>
+              <button type="button" class="pho-tile orange" data-pho="app">Docs</button>
+              <button type="button" class="pho-tile blue" data-pho="app">Treasury</button>
+            </div>
+          </div>
+          <div class="pho-app">
+            <div class="pho-kpis">
+              <div><span>Net worth</span><b>$3,397</b><small>HF 16.9%</small></div>
+              <div>
+                <span>Supply $4,209</span>
+                <div class="donut" style="background:conic-gradient(#ff7a3a 0 62%, #1c1c1c 62% 77%, #2ee6a6 77% 100%)"></div>
+              </div>
+              <div>
+                <span>Borrow $1,700</span>
+                <div class="donut" style="background:conic-gradient(#1c1c1c 0 40%, #cfe0ff 40% 100%)"></div>
+              </div>
+            </div>
+            <table class="pho-table">
+              <thead><tr><th>My supplies</th><th>APY</th><th></th></tr></thead>
+              <tbody>
+                <tr><td>ETH</td><td>3.78%</td><td class="orange">Withdraw</td></tr>
+                <tr><td>XFI</td><td>8.92%</td><td class="orange">Withdraw</td></tr>
+                <tr><td>USDT</td><td>4.47%</td><td class="orange">Withdraw</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </article>
 
       <article class="case" id="helios">
         <div class="case-head">
           <div>
-            <p class="kind">04  iOS wallet</p>
+            <p class="kind">04  wallet</p>
             <h3>Helios</h3>
-            <p class="blurb">TRON send flow. Hold-to-send, Tron tags. Reconstruction of the store screens, not the App Store binary.</p>
+            <p class="blurb">MetaMask-shaped popup: account, tokens, send. Helios mark and TRON network. Not their iOS binary.</p>
           </div>
-          <p class="slo"><b>iOS</b> <a href="https://apps.apple.com/kz/app/helios-tron-wallet/id6739870604">App Store</a></p>
+          <p class="slo"><b>Tron</b> <a href="https://apps.apple.com/kz/app/helios-tron-wallet/id6739870604">App Store</a></p>
         </div>
         <div class="chrome">
           <span class="dots"></span>
-          <span class="url">helios / send</span>
+          <span class="url">helios / popup</span>
           <span class="live">preview</span>
         </div>
-        <div class="helios">
-          <div class="phone">
-            <div class="phone-top"><span>9:41</span><span>TRON</span></div>
-            <h4>You are sending</h4>
-            <div class="h-amt" id="h-amt">200</div>
-            <p class="tag">USDT  to  @justin  preview</p>
-            <div class="h-pad" id="h-pad">
-              <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
-              <button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
-              <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button>
-              <button type="button" data-k=".">.</button><button type="button" data-k="0">0</button><button type="button" data-k="del">del</button>
+        <div class="helios" id="h-stage" data-view="home">
+          <div class="mm">
+            <div class="mm-top">
+              <span class="mm-net">Tron Mainnet</span>
+              <span class="mm-mark">H</span>
             </div>
-            <button type="button" class="h-send" id="h-send">Hold to send</button>
-            <p class="h-note" id="h-note">Preview. Not a TRON transaction.</p>
+            <div class="mm-acct">Helios 1<br><code>TXY9...k2p</code></div>
+            <div class="mm-home">
+              <div class="bal" id="h-bal">$14,643.83</div>
+              <div class="mm-acts">
+                <button type="button" data-h="send">Send</button>
+                <button type="button" data-h="home">Swap</button>
+                <button type="button" data-h="home">Buy</button>
+              </div>
+              <ul class="mm-tok">
+                <li><b>TRX</b><span>2,410.00</span></li>
+                <li><b>USDT</b><span>8,102.40</span></li>
+              </ul>
+            </div>
+            <div class="mm-send">
+              <label>To Tron tag</label>
+              <input id="h-to" type="text" value="@justin" />
+              <label>Amount USDT</label>
+              <input id="h-amt" type="text" inputmode="decimal" value="200" />
+              <button type="button" class="h-send" id="h-send">Send (preview)</button>
+              <button type="button" class="mm-back" data-h="home">Back</button>
+              <p class="h-note" id="h-note">Popup preview. Not a TRON tx.</p>
+            </div>
           </div>
         </div>
       </article>
